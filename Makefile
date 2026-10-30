@@ -1,4 +1,4 @@
-DATA_DIR=/home/$(USER)/data
+DATA_DIR = /home/$(USER)/data
 export DATA_DIR
 
 COMPOSE = docker compose -f srcs/docker-compose.yml
