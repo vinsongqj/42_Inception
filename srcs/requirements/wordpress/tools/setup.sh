@@ -37,6 +37,16 @@ if ! wp user get "$WP_USER" --allow-root >/dev/null 2>&1; then
 		--user_pass="$WP_USER_PASS" --allow-root
 fi
 
+wp config set WP_REDIS_HOST redis --allow-root
+wp config set WP_REDIS_PORT 6379 --raw --allow-root
+wp config set WP_REDIS_TIMEOUT 1 --raw --allow-root
+wp config set WP_REDIS_READ_TIMEOUT 1 --raw --allow-root
+if ! wp plugin is-installed redis-cache --allow-root; then
+	wp plugin install redis-cache --activate --allow-root
+fi
+wp redis status --allow-root | grep -q "Status: Connected" \
+    || wp redis enable --allow-root
+
 chown -R www-data:www-data "$WP_PATH"
 
 exec php-fpm8.2 -F -O

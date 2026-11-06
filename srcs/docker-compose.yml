@@ -46,6 +46,14 @@ services:
     networks:
       - inception
 
+  redis:
+    build: ./requirements/bonus/redis
+    image: redis
+    container_name: redis
+    restart: always
+    networks:
+      - inception
+
 volumes:
   db_data:
     driver: local
