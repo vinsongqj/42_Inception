@@ -30,6 +30,10 @@ Essentially, Docker is used for speed and efficiency, while virtual machines are
 
 ### Secrets vs Environment Variables
 
+Secrets are sensitive credentials delivered securely to containers as read-only, in-memory files (typically mounted under `/run/secrets/`). They prevent accidental exposure by keeping sensitive data out of environment listings, build histories, image layers, and process dumps.
+
+Environment variables are key-value pairs injected directly into a container's OS environment at launch. They are simple to use and ideal for non-sensitive configuration settings but they sit in plaintext in process memory and output across `docker inspect`, `/proc`, and crash logs.
+
 | | Docker Secrets | Environment Variables |
 | :--- | :---: | :---: |
 | **Delivery** | Mounted as files in memory (e.g., `/run/secrets/<name>`) | Passed into the process environment (`-e`, `--env-file`, `ENV`) |
