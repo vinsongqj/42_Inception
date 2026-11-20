@@ -43,6 +43,16 @@ WP_USER=editor1
 WP_USER_EMAIL=editor1@student.42.fr
 ```
 
+`/secrets` is gitignored to avoid leaking passwords, and has to be created during a fresh clone using the following commands:
+
+```bash
+mkdir -p secrets
+printf '%s'   '<db password>'      > secrets/db_password.txt
+printf '%s'   '<db root password>'  > secrets/db_root_password.txt
+printf '%s\n%s\n' '<wp admin password>' '<wp user password>' > secrets/credentials.txt
+chmod 600 secrets/*.txt
+```
+
 ## Project Description
 
 ### Virtual Machines vs Docker
