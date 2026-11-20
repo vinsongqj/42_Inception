@@ -10,6 +10,15 @@
 
 ### Virtual Machines vs Docker
 
+| | Virtual Machines | Docker |
+| :--- | :---: | ---: |
+| Architecture | Row 1, Col 2 | Row 1, Col 3 |
+| Memory Footprint | Row 2, Col 2 | Row 2, Col 3 |
+| Startup | Row 2, Col 2 | Row 2, Col 3 |
+| Isolation | Row 2, Col 2 | Row 2, Col 3 |
+| Resource Usage | Row 2, Col 2 | Row 2, Col 3 |
+| Networking | Row 2, Col 2 | Row 2, Col 3 |
+
 ### Secrets vs Environment Variables
 
 ### Docker Network vs Host Network
