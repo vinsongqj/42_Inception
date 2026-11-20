@@ -4,6 +4,19 @@
 
 ## Description
 
+Inception is a system administration project designed to introduce containerization and infrastructure management using Docker and Docker Compose. DockerHub and the use of Docker images is forbidden, and every service must be built using custom Dockerfiles based on the penultimate distribution of either Debian or Alpine. Debian is used for this project.
+
+### Mandatory Services:
+* **NGINX** - Acts as the sole entry point listening on port 443 with TLS v1.2/v1.3. It routes web traffic and proxies PHP requests to WordPress.
+* **WordPress + PHP-FPM** - Runs the dynamic backend (without NGINX inside this container).
+* **MariaDB** - Database container for WordPress storage.
+* **Volumes** - Configured using bind mounts mapped to `/home/<user>/data` to ensure database records and site files survive container reboots.
+* **Docker Network** - An isolated internal bridge network allowing containers to communicate via DNS resolution using service names.
+
+### Bonus Services:
+* **Redis** - Dedicated in-memory caching container paired with WordPress to speed up repeated reads and reduce database load.
+* **Static Website** - Separate containerized site serving static web assets routed through NGINX without needing PHP or database overhead.
+
 ## Instructions
 
 ## Project Description
