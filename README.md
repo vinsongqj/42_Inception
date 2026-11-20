@@ -18,6 +18,14 @@ Inception is a system administration project designed to introduce containerizat
 * **Static Website** - Separate containerized site serving static web assets routed through NGINX without needing PHP or database overhead.
 
 ## Instructions
+A Makefile has been provided for convenience. You may choose to run the following commands:
+
+```bash
+make         # Build and start the containers
+make down    # Stop but store the data
+make fclean  # Remove everything including the data
+make re      # Rebuild everything from scratch
+```
 
 ## Project Description
 
