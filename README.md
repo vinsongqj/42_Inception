@@ -26,6 +26,22 @@ make down    # Stop but store the data
 make fclean  # Remove everything including the data
 make re      # Rebuild everything from scratch
 ```
+A `.env.example` file is provided as reference, but a `.env` file has to be created following its structure:
+
+```dotenv
+DOMAIN_NAME=vgoh.42.fr
+
+# MariaDB
+MYSQL_DATABASE=wordpress
+MYSQL_USER=wpuser
+
+# WordPress (the admin username must NOT contain "admin" or "administrator")
+WP_TITLE=Inception
+WP_ADMIN_USER=vgoh_boss
+WP_ADMIN_EMAIL=vgoh@student.42.fr
+WP_USER=editor1
+WP_USER_EMAIL=editor1@student.42.fr
+```
 
 ## Project Description
 
