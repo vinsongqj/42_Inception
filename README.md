@@ -20,15 +20,24 @@ Below is a brief comparison between virtual machines and Docker:
 
 | | Virtual Machines | Docker |
 | :--- | :---: | :---: |
-| Architecture | Fully virtual and running on hypervisor, with its own OS and kernel | Isolated Linux process that shares the host OS kernel |
-| Memory Footprint | Large, needs to allocate RAM, CPU and drive space for its own OS  | Small, needs to just run the app and its own runtime overhead |
-| Startup | Slow, needs to boot OS and load drivers | Fast, does not need to boot OS |
-| Isolation | Separate OS instance enforced by hypervisor | Isolated, process believes it is running alone due to kernel namespace isolation, hence PID 1 |
-| Resource Usage | Virtual CPU, RAM and disk allocated by hypervisor | CPU and RAM usage enforced by cgroups that will reclaim memory if a process requires more or kill it if it exceeds usage limits |
+| **Architecture** | Fully virtual and running on hypervisor, with its own OS and kernel | Isolated Linux process that shares the host OS kernel |
+| **Memory Footprint** | Large, needs to allocate RAM, CPU and drive space for its own OS  | Small, needs to just run the app and its own runtime overhead |
+| **Startup** | Slow, needs to boot OS and load drivers | Fast, does not need to boot OS |
+| **Isolation** | Separate OS instance enforced by hypervisor | Isolated, process believes it is running alone due to kernel namespace isolation, hence PID 1 |
+| **Resource Usage** | Virtual CPU, RAM and disk allocated by hypervisor | CPU and RAM usage enforced by cgroups that will reclaim memory if a process requires more or kill it if it exceeds usage limits |
 
 Essentially, Docker is used for speed and efficiency, while virtual machines are used for strict isolation and security.
 
 ### Secrets vs Environment Variables
+
+| | Docker Secrets | Environment Variables |
+| :--- | :---: | :---: |
+| **Delivery** | Mounted as files in memory (e.g., `/run/secrets/<name>`) | Passed into the process environment (`-e`, `--env-file`, `ENV`) |
+| **Crash Dumps & Logs** | Safer, not automatically dumped with process environment blocks | Riskier, often leaked into error reports, debug logs, or crash dumps |
+| **Child Processes** | Only accessible if explicitly read by code with file permission | Automatically inherited by child processes and subshells by default |
+| **Inspection and Debugging** | Hidden from `env` and `docker inspect` environment output | Visible in `env`, `/proc/<pid>/environ`, and `docker inspect` |
+| **Access Control** | Controlled by file permissions, read-only mounts, and container scope | All within the container's process environment |
+| **Usage** | Passwords, API keys, tokens, private keys | Non-sensitive config (ports, log levels, feature flags) |
 
 ### Docker Network vs Host Network
 
@@ -37,6 +46,7 @@ Essentially, Docker is used for speed and efficiency, while virtual machines are
 ## Resources
 * [Docker Docs](https://docs.docker.com/)
 * [Docker Under the Hood (Finally Explained) - PawelCodeStuff](https://youtu.be/uG68z0ss-is?si=HWljhYAIgzNQdrvm)
+* [Docker Secrets vs Env Variables Explained - Interview Mentor App](https://youtu.be/UuwM03KX_BU?si=wnyAPj6-hhBuWkAl)
 * [How TLS Works: The Protocol That Keeps Your Passwords Secret - PawelCodeStuff](https://youtu.be/NoFNP0Vy4tY?si=UUZZ7Vey8GFckiHu)
 * [Nginx will finally make sense after this video - PawelCodeStuff](https://youtu.be/L0jMBrCEQNQ?si=Yosv0wsM6CN6OHBW)
 * [How Nginx and PHP-FPM turn a web request into code](https://youtu.be/lh4RnczaATI?si=Hb0DeuCvZ_qk9FIB)
