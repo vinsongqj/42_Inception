@@ -26,7 +26,7 @@ make down    # Stop but store the data
 make fclean  # Remove everything including the data
 make re      # Rebuild everything from scratch
 ```
-A `.env.example` file is provided as reference, but a `.env` file has to be created following its structure:
+An `.env.example` file is provided as reference, but a `.env` file has to be created in `/srcs` following its structure:
 
 ```dotenv
 DOMAIN_NAME=vgoh.42.fr
