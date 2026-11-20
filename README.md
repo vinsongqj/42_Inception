@@ -11,13 +11,12 @@
 ### Virtual Machines vs Docker
 
 | | Virtual Machines | Docker |
-| :--- | :---: | ---: |
-| Architecture | Row 1, Col 2 | Row 1, Col 3 |
-| Memory Footprint | Row 2, Col 2 | Row 2, Col 3 |
-| Startup | Row 2, Col 2 | Row 2, Col 3 |
-| Isolation | Row 2, Col 2 | Row 2, Col 3 |
-| Resource Usage | Row 2, Col 2 | Row 2, Col 3 |
-| Networking | Row 2, Col 2 | Row 2, Col 3 |
+| :--- | :---: | :---: |
+| Architecture | Fully virtual and running on hypervisor, with its own OS and kernel | Isolated Linux kernel that shares the host OS kernel |
+| Memory Footprint | Large, needs to allocate RAM, CPU and drive space for its own OS  | Small, needs to just run the app and its own runtime overhead |
+| Startup | Slow, needs to boot OS and load drivers | Fast, does not need to boot OS |
+| Isolation | Separate OS instance enforced by hypervisor | Isolated, process believes it is running alone due to kernel namespace isolation, hence PID 1 (Process ID 1)|
+| Resource Usage | Virtual CPU, RAM and disk allocated by hypervisor | CPU and RAM usage enforced by cgroups that will reclaim memory if a process requires more or kill it if it exceeds usage limits |
 
 ### Secrets vs Environment Variables
 
