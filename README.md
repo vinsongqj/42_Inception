@@ -10,13 +10,23 @@
 
 ### Virtual Machines vs Docker
 
+A Virtual Machine uses hypervisor, which is a software, firmware, or hardware layer that abstracts physical computer hardware to simulate a computer. It boots a kernel, loads hardware drivers and runs its own OS (operating system).
+
+Meanwhile, Docker is an open-source platform that packages an application and all its dependencies into a standardized, isolated unit called a container. A Docker container is a Linux process that does not need to boot, shares the kernel and uses just the application's memory. However, they differ in the sense that normal processes are aware of each other, share the same filesystem, network interface and host name. A Docker container is assigned a PID (Process ID) namespace and isolated by the kernel, so it believes it is the first process running on an empty system, hence PID 1.
+
+A process isolated by a PID namespace can still consume all the host CPU and crash the machine. This is solved by the kernel using cgroups (control groups), that allows memory and cpu flags to configure the usage limits of each process. If a process requires more memory, a cgroup will attempt to reclaim existing memory already being used by the process to be reused, or if memory usage exceeds limits, the process is killed.
+
+Below is a brief comparison between virtual machines and Docker:
+
 | | Virtual Machines | Docker |
 | :--- | :---: | :---: |
-| Architecture | Fully virtual and running on hypervisor, with its own OS and kernel | Isolated Linux kernel that shares the host OS kernel |
+| Architecture | Fully virtual and running on hypervisor, with its own OS and kernel | Isolated Linux process that shares the host OS kernel |
 | Memory Footprint | Large, needs to allocate RAM, CPU and drive space for its own OS  | Small, needs to just run the app and its own runtime overhead |
 | Startup | Slow, needs to boot OS and load drivers | Fast, does not need to boot OS |
-| Isolation | Separate OS instance enforced by hypervisor | Isolated, process believes it is running alone due to kernel namespace isolation, hence PID 1 (Process ID 1)|
+| Isolation | Separate OS instance enforced by hypervisor | Isolated, process believes it is running alone due to kernel namespace isolation, hence PID 1 |
 | Resource Usage | Virtual CPU, RAM and disk allocated by hypervisor | CPU and RAM usage enforced by cgroups that will reclaim memory if a process requires more or kill it if it exceeds usage limits |
+
+Essentially, Docker is used for speed and efficiency, while virtual machines are used for strict isolation and security.
 
 ### Secrets vs Environment Variables
 
