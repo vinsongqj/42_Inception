@@ -18,40 +18,58 @@ Inception is a system administration project designed to introduce containerizat
 * **Static Website** - Separate containerized site serving static web assets routed through NGINX without needing PHP or database overhead.
 
 ## Instructions
-A Makefile has been provided for convenience. You may choose to run the following commands:
+
+### Prerequisites
+
+- A Debian VM with Docker Engine, the Docker Compose plugin, `make` and `git`, and a user with `sudo`.
+- The domain must resolve to the VM:
 
 ```bash
-make         # Build and start the containers
-make down    # Stop but store the data
-make fclean  # Remove everything including the data
-make re      # Rebuild everything from scratch
-```
-An `.env.example` file is provided as reference, but a `.env` file has to be created in `/srcs` following its structure:
-
-```dotenv
-DOMAIN_NAME=vgoh.42.fr
-
-# MariaDB
-MYSQL_DATABASE=wordpress
-MYSQL_USER=wpuser
-
-# WordPress (the admin username must NOT contain "admin" or "administrator")
-WP_TITLE=Inception
-WP_ADMIN_USER=vgoh_boss
-WP_ADMIN_EMAIL=vgoh@student.42.fr
-WP_USER=editor1
-WP_USER_EMAIL=editor1@student.42.fr
+echo "127.0.0.1 vgoh.42.fr" | sudo tee -a /etc/hosts
 ```
 
-`/secrets` is gitignored to avoid leaking passwords, and has to be created during a fresh clone using the following commands:
+### Setup
+
+After cloning the repository:
+
+```bash
+cp srcs/.env.example srcs/.env      # Edit values if needed
+```
+
+`srcs/.env` is gitignored and holds the non-secret configuration (see `srcs/.env.example` for the structure). The admin username must **not** contain "admin" or "administrator".
+
+`secrets/` is also gitignored, so create it after cloning. This must be done **before** `make`:
 
 ```bash
 mkdir -p secrets
-printf '%s'   '<db password>'      > secrets/db_password.txt
-printf '%s'   '<db root password>'  > secrets/db_root_password.txt
+printf '%s' '<db password>'       > secrets/db_password.txt
+printf '%s' '<db root password>'  > secrets/db_root_password.txt
 printf '%s\n%s\n' '<wp admin password>' '<wp user password>' > secrets/credentials.txt
 chmod 600 secrets/*.txt
 ```
+
+- `db_password.txt`: password of the WordPress database user.
+- `db_root_password.txt`: MariaDB root password.
+- `credentials.txt`: line 1 is the WordPress administrator's password, line 2 the second user's.
+
+### Run
+
+```bash
+make         # Build and start the containers
+make down    # Stop but keep the data
+make fclean  # Remove everything including the data
+make re      # Rebuild from scratch
+```
+
+The first start takes a minute or two while WordPress installs, and the site may show a 403 until then. Use `docker logs wordpress` to show the progress.
+
+### Access
+
+- Website: `https://vgoh.42.fr` (accept the self-signed certificate warning)
+- Admin panel: `https://vgoh.42.fr/wp-admin`
+- Static site (bonus): `https://vgoh.42.fr/portfolio/`
+
+If you change the passwords or `.env` after a first start, run `make fclean` first. The database is only initialized on empty data folders.
 
 ## Project Description
 
