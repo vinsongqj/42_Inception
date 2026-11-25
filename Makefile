@@ -16,7 +16,7 @@ clean: down
 	docker image prune -f
 
 fclean:
-	$(COMPOSE) down -v --rmi local
+	$(COMPOSE) down -v --rmi all
 	sudo rm -rf $(DATA_DIR)/mariadb $(DATA_DIR)/wordpress
 
 re: fclean all

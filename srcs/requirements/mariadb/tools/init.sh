@@ -3,7 +3,6 @@ set -e
 
 DB_PASS=$(cat /run/secrets/db_password)
 ROOT_PASS=$(cat /run/secrets/db_root_password)
-SOCK=/run/mysqld/mysqld.sock
 
 mkdir -p /run/mysqld
 chown mysql:mysql /run/mysqld

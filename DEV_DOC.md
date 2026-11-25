@@ -194,7 +194,7 @@ Persistence behavior:
 | Symptom | Likely cause and fix |
 |---|---|
 | `make` fails on volume creation | The data folders are missing or `DATA_DIR` is empty. Run through `make`, or `export DATA_DIR=/home/$USER/data`. |
-| WordPress container exits with "MariaDB not reachable" | Wrong or stale credentials. Check `srcs/.env` and `secrets/`, then `make fclean && make`. |
+| WordPress container exits with "MariaDB unreachable" | Wrong or stale credentials. Check `srcs/.env` and `secrets/`, then `make fclean && make`. |
 | Site returns 403 right after start | WordPress is still installing. Check `docker logs wordpress` and wait. |
 | 502 Bad Gateway | The `wordpress` container is down or restarting. Read its logs. |
 | 504 Gateway Timeout | php-fpm waits on a dependency (for example Redis). Check `docker ps` and the logs. |
