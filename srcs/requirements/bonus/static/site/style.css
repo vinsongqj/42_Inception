@@ -1,0 +1,14 @@
+body{
+    background: linear-gradient(
+    90deg,
+    #ff0000 0%,
+    #ff7f00 17%,
+    #ffff00 33%,
+    #00ff00 50%,
+    #0000ff 67%,
+    #4b0082 83%,
+    #8b00ff 100%
+  );
+    font-family: 'Impact';
+    color: black
+}
