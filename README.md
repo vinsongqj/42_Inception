@@ -110,7 +110,37 @@ Environment variables are key-value pairs injected directly into a container's O
 
 ### Docker Network vs Host Network
 
+Docker Networks exist because every container runs in its own network namespace, meaning it has no network interface. Docker uses a virtual ethernet pair to connect it to a virtual switch on the host called a bridge. Whatever traffic travels through this bridge is routed to the physical network adapter on the host. A port like 8080:80 has to be exposed so that traffic arriving from the host's port (e.g. 8080) is forwarded to the port (e.g. 80) inside the container.
+
+Host networks are just when Docker skips the Docker Network setup and uses the host's network interface directly. This means there is no isolation, and everything is exposed which is risky and the reason why it is forbidden for this project.
+
+| | Docker Network | Host Network |
+| :--- | :---: | :---: |
+| **Network** | Its own, separate from the host | Same as the host |
+| **IP address** | Its own private address | Uses the host's address |
+| **Reachability** | Only through published ports (`443:443`) | Every port the service opens is open on the host |
+| **Port conflicts** | Containers can use the same internal port | Two services cannot use the same port |
+| **Container visibility** | By service name (`mariadb`, `wordpress:9000`) | By `localhost` and port, with no Docker DNS |
+| **Isolation** | Good, unpublished services are hidden | Weak, a service is exposed on the host directly |
+
 ### Docker Volumes vs Bind Mounts
+
+A container's file system is temporary, meaning that the data inside it is lost when it is removed. Data that must be persistent has to be stored in a Docker Volume or bind mount.
+
+Bind mounts map a path of the host into the container, so these are unmanaged by Docker but instead depend on the host folder's permissions.
+
+A Docker Volume is storage created and managed by Docker and can be inspected, backed up or moved with Docker commands.
+
+| | Docker Volumes | Bind Mounts |
+| :--- | :---: | :---: |
+| **What it is** | Storage created and managed by Docker | A host folder mapped into the container |
+| **Location** | Docker's own folder (or a chosen path, as here) | The exact host path you write |
+| **Managed by** | Docker (`docker volume ls`, `inspect`, `rm`) | You, outside of Docker |
+| **Dependency on host's folders** | No | Yes, the path must exist |
+| **Existing content in the image** | Copied into a new empty volume first | Hidden by the host folder |
+| **Permissions** | Take the image's ownership at creation | Take the host folder's ownership |
+| **Easy to relocate** | Yes, with Docker commands | Yes, but only as ordinary files |
+| **Best for** | Data that must persist (databases, uploads) | Editing files live during development |
 
 ## Resources
 * [Docker Docs](https://docs.docker.com/)
